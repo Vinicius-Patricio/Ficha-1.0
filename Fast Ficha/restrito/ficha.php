@@ -133,7 +133,7 @@
                 <td>
                     <b>$grupo</b>
                 </td>
-                <td></td>            
+                <td>sim</td>            
                 <td></td> 
                 <td></td> 
                 <td></td> 
