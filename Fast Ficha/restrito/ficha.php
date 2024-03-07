@@ -1,5 +1,6 @@
 <?php 
     include("conexao.php");
+    include("cria_ficha.php");
     session_start();
     verificarLogin();
 
@@ -12,7 +13,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="estilo.css">
 
-  <title>Lista de Fichas</title>
+  <title>Fichas</title>
   
 </head>
 <body class="bg-black" style="color: #FFD700">
@@ -118,22 +119,14 @@
         $sql = "SELECT * FROM ficha where id_aluno = $_GET[id]";
         $dados = mysqli_query($conn, $sql);
         
-        while($linha = mysqli_fetch_assoc($dados)){
-            $segunda = $linha['segunda'];
-            $terca = $linha['terca'];
-            $quarta = $linha['quarta'];
-            $quinta = $linha['quinta'];
-            $sexta = $linha['sexta'];
-            $sabado = $linha['sabado'];
-            $domingo = $linha['domingo'];
-            $grupo = $linha['$grupo'];
-        }
+
+        
         echo"
             <tbody class='text-center'>
                 <td>
-                    <b>$grupo</b>
+                    <b></b>
                 </td>
-                <td>sim</td>            
+                <td></td>            
                 <td></td> 
                 <td></td> 
                 <td></td> 
