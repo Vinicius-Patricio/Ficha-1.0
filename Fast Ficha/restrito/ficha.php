@@ -119,8 +119,6 @@
         $sql = "SELECT * FROM ficha where id_aluno = $_GET[id]";
         $dados = mysqli_query($conn, $sql);
         
-
-        
         echo"
             <tbody class='text-center'>
                 <td>

@@ -5,7 +5,6 @@
 
     if(isset($_POST['nome'], $_POST['email'], $_POST['telefone'], $_POST['data_nascimento'], $_POST['data_atual'], $_POST['sexo'], $_POST['exp_treino'], $_POST['peso'], $_POST['altura'], $_SESSION['cod_pessoa'])) {
         
-        // Atribuir valores dos campos do formulário a variáveis
         $nome = $_POST['nome'];        
         $email = $_POST['email'];
         $telefone = $_POST['telefone'];

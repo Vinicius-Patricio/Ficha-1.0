@@ -111,7 +111,7 @@
                                 <td>
                                     <a href='cadastro_edit.php?id=$id_aluno' class='btn btn-success btn-sm mt-1'>Editar</a>
                                     <button class='btn btn-danger btn-sm mt-1 btn-excluir' data-bs-toggle='modal' data-bs-target='#confirma' data-id='$id_aluno' data-nome='$nome'>Excluir</button>
-                                    <a href='ficha.php?id=$id_aluno' class='btn btn-primary btn-sm mt-1'>Fichas</a>
+                                    <a href='lista_fichas.php?id=$id_aluno' class='btn btn-primary btn-sm mt-1'>Fichas</a>
                                 </td>
                             </tr>";
 
