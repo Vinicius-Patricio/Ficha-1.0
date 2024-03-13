@@ -17,12 +17,6 @@ function verificarLogin() {
         }
     }         
 
- function mensagem($texto, $tipo){
-    echo"<div role='alert' alert='$tipo'> 
-        $texto
-    </div>";   
-}
-
 function mostra_data($data){
     $d = explode('-', $data);
     $escreve = $d[2] . "/" . $d[1] ."/". $d[0];
