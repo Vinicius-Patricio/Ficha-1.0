@@ -22,12 +22,13 @@
         $grupos = array(
             "Peito" => 4,
             "Triceps" => 3,
-            "Ombros" => 3
+            "Ombros" => 3,
+            "Quadriceps" => 3
         );
 
         foreach($grupos as $grupo => $limite){
             $sql_ABC = 
-               "SELECT exercicios.nome
+               "SELECT exercicios.nome, exerciciosgruposmusculares.grupo_muscular_id, 
                 FROM exercicios
                 JOIN exerciciosgruposmusculares ON exercicios.id = exerciciosgruposmusculares.exercicio_id
                 JOIN gruposmusculares ON exerciciosgruposmusculares.grupo_muscular_id = gruposmusculares.id
@@ -45,31 +46,35 @@
                     echo "<ul>";
                     $exercicio = $row["nome"];
 
-//treinos.exp_treino fk de exptreino.id
-//treinos.id_grupo fk de seriestreino.id
+        //treinos.exp_treino fk de exptreino.id
+        //treinos.id_grupo fk de seriestreino.id
 
                     $sql_series =
-                       "SELECT seriestreino.rep, seriestreino.series, aluno.exp_treino 
-                        FROM seriestreino
-                        JOIN exptreino ON seriestreino.exp_treino = exptreino.id
-                        JOIN treinos ON exptreino.id = treinos.id_exp_treino
-                        JOIN aluno ON exptreino.id = aluno.exp_treino
-                        JOIN e
-                        WHERE exptreino.id = ? AND aluno.exp_treino = $exp
-                        LIMIT 1";
+                    "SELECT seriestreino.series, seriestreino.rep
+                    FROM seriestreino  
+                    INNER JOIN treinos ON treinos.id_grupo = seriestreino.id
+                    INNER JOIN exptreino ON treinos.id_exp_treino = exptreino.id
+                    WHERE exptreino.id = '$exp'
+                    LIMIT 1;";
 
-                    $stmt_series = $conn->prepare($sql_series);
-                    $stmt_series->bind_param("i", $exp);
-                    $stmt_series->execute();
-                    $resultado_series = $stmt_series->get_result();
+                    $sql_series =
+                    "SELECT s.series, s.rep
+                    FROM seriestreino as s  
+                    INNER JOIN grupomusculares as gm ON gm.id = s.id_grupos_musculares
+                    INNER JOIN exptreino as et.id = s.id_exp_treino
+                    WHERE s.id_grupos_musculares = ".$row['grupo_muscular_id']."
+                    LIMIT 1;";
+
+                    $resultado_series = $conn->query($sql_series);
                    
 
                     while($row_serie = $resultado_series->fetch_assoc()){
-                        echo "<li>" . $row_serie["series"] . " x " . $row_serie["rep"] ."</li>";
+                        $rep = $row_serie['rep'];
+                        $series = $row_serie['series'];
+                        
+                        echo "$series x $rep";
                     }
                     echo "</ul>";
-
-                    $stmt_series->close();
                 }
             }
         }
