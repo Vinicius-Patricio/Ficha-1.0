@@ -1,9 +1,7 @@
 <?php 
     include("conexao.php");
-    include("cria_ficha.php");
     session_start();
     verificarLogin();
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -47,92 +45,113 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav>  
 
-    <div class="container mt-5 d-flex justify-content-center" style="max-width: 70%">
+    <div class="container mt-5 d-flex justify-content-center" style="max-width: 60%">
     <?php 
 
-        $sql = "SELECT * FROM aluno where id_aluno = $_GET[id]"; 
-        $dados = mysqli_query($conn, $sql);
+        $id_aluno = $_SESSION['id_aluno'] ?? null;
+        if($id_aluno){
 
-        while($linha = mysqli_fetch_assoc($dados)){
-            $id_aluno = $linha['id_aluno'];
-            $nome = $linha['nome'];
-            $peso = $linha['peso'];
-            $altura= $linha['altura'];
-            $data_nascimento= $linha ['data_nascimento'];
-            $idade = mostra_Idade($data_nascimento);
-            $exp_treino = $linha['exp_treino'];
-            $imc = calcularImc($linha['peso'], $linha['altura']);
+            $sql = "SELECT * FROM aluno where id_aluno = $id_aluno"; 
+            $dados = mysqli_query($conn, $sql);
+
+            while($linha = mysqli_fetch_assoc($dados)){
+                $id_aluno = $linha['id_aluno'];
+                $nome = $linha['nome'];
+                $peso = $linha['peso'];
+                $altura = $linha['altura'];
+                $data_nascimento = $linha ['data_nascimento'];
+                $idade = mostra_Idade($data_nascimento);
+                $exp_treino = $linha['exp_treino'];
+                $imc = calcularImc($linha['peso'], $linha['altura']);
+                
+                echo "<table class='table table-dark table-striped-columns table-bordered border-white'>
+                        <thead>
+                            <tr class='text-center'>
+                                <th colspan='6'><h3>$nome</h3></th>
+                                <tr>
+                                    <th colspan='6' class='fw-normal'>
+                                        <div class='container p-0'>
+                                        <div class='row'>
+                                        <div class='col-6 col-sm-3'> Idade: $idade anos </div>
+                                        <div class='w-100'></div>
+                                        <div class='col-6 col-sm-3'> Altura: $altura cm </div> 
+                                        <div class='w-100'></div>
+                                        <div class='col-6 col-sm-3'> Peso: $peso kg </div>
+                                        <div class='col=6 col-sm-3'> IMC: $imc </div>
+                                        <div class='col-6 col-sm-3'> Divisão de treino: ";
+                                        switch ($exp_treino){
+
+                                            case 1;
+                                            echo "ABC";
+                                            break;
+
+                                            case 2;
+                                            echo"ABCD";
+                                            break;
+
+                                            case 3;
+                                            echo "ABCDE";
+                                            break;
+
+                                            case 4;
+                                            echo "ABCDEF";
+                                            break;
+                                        }
+                                        echo"</div>
+                                        </div>
+                                        </div>                  
+                                    </th>
+                                </tr>
+                            </tr>
+                            <th> </th>
+                            <th class='text-center'>Exercicios</th>
+                            <th class='text-center' style='width: 6.5%'>Séries</th>
+                            <th class='text-center' style='width: 6%'>Rep.</th>
+                        </thead>";
+                if(isset($_SESSION['resultado_busca'])){
+                    $resultado = $_SESSION['resultado_busca'];
+                    if(is_array($resultado) && !empty($resultado)){
+                        foreach($resultado as $grupo => $exercicios_grupo){
+                            $primeiro_exercicio = true;
+                            $count_exercicios = count($exercicios_grupo);
+                            $grupos_impressos = 0;
+                            
+                            foreach($exercicios_grupo as $item){                                    
+                                $nome_exercicio = $item ["nome"] ?? "";
+                                $rep = $item["rep"] ?? "";
+                                $series = $item["series"] ?? "";
+
+                                if($primeiro_exercicio){
+                                    echo"
+                                    <tr>
+                                        <div><th class='text-center col align-middle' style='width: 10%' rowspan='$count_exercicios'>$grupo</th></div>";
+                                    $grupos_impressos++;    
+
+                                    $primeiro_exercicio = false;
+                                }
+                                    echo"
+                                    <td>$nome_exercicio</td>
+                                    <td class='text-center'>$series</td>
+                                    <td class='text-center'>$rep</td>";
+                                
+                                if($count_exercicios > 1){
+                                    echo"</tr><tr>";
+                                    $count_exercicios--;
+                                }                                        
+                            }
+                            echo"</tr>";
+                        }    
+                    }              
+                }
+                 echo"</table>";    
+            }
         }
+            
 
-        echo "<table class='table table-dark table-striped-columns table-bordered border-white'>
-        <thead>
-            <tr class='text-center'>
-                <th colspan='7'><h3>$nome</h3></th>
-                <tr>
-                    <th colspan='7' class='fw-normal'>
-                        <div class='container p-0'>
-                        <div class='row'>
-                        <div class='col-6 col-sm-3'> Idade: $idade anos </div>
-                        <div class='w-100'></div>
-                        <div class='col-6 col-sm-3'> Altura: $altura cm </div> 
-                        <div class='w-100'></div>
-                        <div class='col-6 col-sm-3'> Peso: $peso kg </div>
-                        <div class='col=6 col-sm-3'> IMC: $imc </div>
-                        <div class='col-6 col-sm-3'> Divisão de treino: ";
-                        switch ($exp_treino){
-
-                            case 1;
-                            echo "ABC";
-                            break;
-
-                            case 2;
-                            echo"ABCD";
-                            break;
-
-                            case 3;
-                            echo "ABCDE";
-                            break;
-
-                            case 4;
-                            echo "ABCDEF";
-                            break;
-                        }echo"</div>
-                        </div>
-                        </div>                  
-                    </th
-                </tr>
-            </tr>"?>
-
-            <tr class="text-center">
-                <th scope="col">Segunda</th>                    
-                <th scope="col">Terça</th>
-                <th scope="col">Quarta</th>
-                <th scope="col">Quinta</th>
-                <th scope="col">Sexta</th>
-                <th scope="col">Sábado</th>
-                <th scope="col">Domingo</th>
-            </tr>
-        </thead>
-    <?php
-        $sql = "SELECT * FROM ficha where id_aluno = $_GET[id]";
-        $dados = mysqli_query($conn, $sql);
-        
-        echo"
-            <tbody class='text-center'>
-                <td>
-                    <b></b>
-                </td>
-                <td></td>            
-                <td></td> 
-                <td></td> 
-                <td></td> 
-                <td></td> 
-                <td></td> 
-            </tbody>    
-            </table>"
-    ?>            
+    ?>
+             
     </div>    
     
 </body>
