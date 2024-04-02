@@ -105,42 +105,58 @@
                                     </th>
                                 </tr>
                             </tr>
-                            <th> </th>
-                            <th class='text-center'>Exercicios</th>
-                            <th class='text-center' style='width: 6.5%'>Séries</th>
-                            <th class='text-center' style='width: 6%'>Rep.</th>
                         </thead>";
+            
                 if(isset($_SESSION['resultado_busca'])){
                     $resultado = $_SESSION['resultado_busca'];
                     if(is_array($resultado) && !empty($resultado)){
+                        $grupos_impressos = 0;
+                        $numero_treino = 1;
+                        $total_grupos = 0;
+
                         foreach($resultado as $grupo => $exercicios_grupo){
                             $primeiro_exercicio = true;
                             $count_exercicios = count($exercicios_grupo);
-                            $grupos_impressos = 0;
+                                                           
+                            if($grupos_impressos % 3 == 0 && $exp_treino == 1){
+                                echo "<tr>";
+                                echo "<th class='text-center'>Treino " . chr(64 + $numero_treino++) . "</th>
+                                <th class='text-center'>Exercicios</th>
+                                <th class='text-center' style='width: 6.5%'>Séries</th>
+                                <th class='text-center' style='width: 6%'>Rep.</th>"; 
+                                } elseif($grupos_impressos % 3 == 0 && $exp_treino == 2 ){
+                                    
+                                    echo "<tr>";
+                                    echo "<th class='text-center'>Treino " . chr(64 + $numero_treino++) . "</th>
+                                    <th class='text-center'>Exercicios</th>
+                                    <th class='text-center' style='width: 6.5%'>Séries</th>
+                                    <th class='text-center' style='width: 6%'>Rep.</th>";                                    
+                                }  
+                                    foreach($exercicios_grupo as $item){                                    
+                                        $nome_exercicio = $item ["nome"] ?? "";
+                                        $rep = $item["rep"] ?? "";
+                                        $series = $item["series"] ?? "";
+
+                                        if($primeiro_exercicio){
+                                            echo"
+                                            <tr>
+                                                <div><th class='text-center col align-middle' style='width: 10%' rowspan='$count_exercicios'>$grupo</th></div>";  
+
+                                            $primeiro_exercicio = false;
+                                        }
+                                            echo"
+                                            <td>$nome_exercicio</td>
+                                            <td class='text-center'>$series</td>
+                                            <td class='text-center'>$rep</td>";
+                                        
+                                        if($count_exercicios > 1){
+                                            echo"</tr><tr>";
+                                            $count_exercicios--;
+                                        } 
+                                                                            
+                                    }
+                                    $grupos_impressos++; 
                             
-                            foreach($exercicios_grupo as $item){                                    
-                                $nome_exercicio = $item ["nome"] ?? "";
-                                $rep = $item["rep"] ?? "";
-                                $series = $item["series"] ?? "";
-
-                                if($primeiro_exercicio){
-                                    echo"
-                                    <tr>
-                                        <div><th class='text-center col align-middle' style='width: 10%' rowspan='$count_exercicios'>$grupo</th></div>";
-                                    $grupos_impressos++;    
-
-                                    $primeiro_exercicio = false;
-                                }
-                                    echo"
-                                    <td>$nome_exercicio</td>
-                                    <td class='text-center'>$series</td>
-                                    <td class='text-center'>$rep</td>";
-                                
-                                if($count_exercicios > 1){
-                                    echo"</tr><tr>";
-                                    $count_exercicios--;
-                                }                                        
-                            }
                             echo"</tr>";
                         }    
                     }              
@@ -152,6 +168,14 @@
 
     ?>
              
-    </div>    
+    </div>
+
+    <footer class="rodape">
+        <div class="container">
+        <span class="navbar-text">
+            © 2024 Desenvolvido por Vinicius
+        </span>
+        </div>
+    </footer>    
     
 </body>

@@ -26,12 +26,204 @@
             array("Panturrilha", 2),
             array("Costas", 4),
             array("Biceps", 3)
-
         );
 
         $resultados = array();
 
         for ($i = 0; $i < 8; $i++){
+            $grupo_atual = $grupos[$i][0];
+            $limite_atual = $grupos[$i][1];
+
+            $resultado_busca = array();
+            
+            $sql_ABC = 
+            "SELECT exercicios.nome, exerciciosgruposmusculares.id_grupo_muscular
+                FROM exercicios
+                INNER JOIN exerciciosgruposmusculares ON exercicios.id = exerciciosgruposmusculares.id_exercicio
+                INNER JOIN gruposmusculares ON exerciciosgruposmusculares.id_grupo_muscular= gruposmusculares.id
+                WHERE gruposmusculares.nome = '$grupo_atual'
+                ORDER BY RAND()
+                LIMIT $limite_atual";
+
+            $result_exercicios = $conn->query($sql_ABC);
+                        
+            if ($result_exercicios->num_rows > 0){
+                while($row = $result_exercicios->fetch_assoc()){
+                    $nome_exercicio = $row["nome"];
+
+                    $sql_series =
+                    "SELECT rep, series 
+                    FROM seriestreino
+                    INNER JOIN aluno ON aluno.exp_treino = seriestreino.id_exp_treino
+                    INNER JOIN gruposmusculares ON gruposmusculares.id = seriestreino.id_grupo_muscular
+                    WHERE gruposmusculares.nome = '$grupo_atual'
+                    LIMIT 1;
+                    ";
+
+                    $resultado_series = $conn->query($sql_series);
+                    $row_series = $resultado_series->fetch_assoc();
+                    $rep = $row_series['rep'];
+                    $series = $row_series['series'];
+
+                    $resultado_busca[] = array(
+                        "nome" => $nome_exercicio,
+                        "rep" => $rep,
+                        "series" => $series
+                    );
+                                       
+                }
+                $resultados[$grupo_atual] = $resultado_busca;
+            }            
+        }
+        $_SESSION['resultado_busca'] = $resultados;
+        header('Location: ficha.php');
+
+    }elseif($exp == 2){
+
+        $grupos = array(
+            array("Peito" , 4),
+            array("Ombros", 3),
+            array("Quadriceps", 4),
+            array("Posterior de coxa", 3),
+            array("Panturrilha", 2),
+            array("Triceps", 4),
+            array("Biceps", 3),
+            array("Costas", 4)
+        );
+
+        $resultados = array();
+
+        for ($i = 0; $i < 8; $i++){
+            $grupo_atual = $grupos[$i][0];
+            $limite_atual = $grupos[$i][1];
+
+            $resultado_busca = array();
+            
+            $sql_ABC = 
+            "SELECT exercicios.nome, exerciciosgruposmusculares.id_grupo_muscular
+                FROM exercicios
+                INNER JOIN exerciciosgruposmusculares ON exercicios.id = exerciciosgruposmusculares.id_exercicio
+                INNER JOIN gruposmusculares ON exerciciosgruposmusculares.id_grupo_muscular= gruposmusculares.id
+                WHERE gruposmusculares.nome = '$grupo_atual'
+                ORDER BY RAND()
+                LIMIT $limite_atual";
+
+            $result_exercicios = $conn->query($sql_ABC);
+                        
+            if ($result_exercicios->num_rows > 0){
+                while($row = $result_exercicios->fetch_assoc()){
+                    $nome_exercicio = $row["nome"];
+
+                    $sql_series =
+                    "SELECT rep, series 
+                    FROM seriestreino
+                    INNER JOIN aluno ON aluno.exp_treino = seriestreino.id_exp_treino
+                    INNER JOIN gruposmusculares ON gruposmusculares.id = seriestreino.id_grupo_muscular
+                    WHERE gruposmusculares.nome = '$grupo_atual'
+                    LIMIT 1;
+                    ";
+
+                    $resultado_series = $conn->query($sql_series);
+                    $row_series = $resultado_series->fetch_assoc();
+                    $rep = $row_series['rep'];
+                    $series = $row_series['series'];
+
+                    $resultado_busca[] = array(
+                        "nome" => $nome_exercicio,
+                        "rep" => $rep,
+                        "series" => $series
+                    );
+                                       
+                }
+                $resultados[$grupo_atual] = $resultado_busca;
+            }            
+        }
+        $_SESSION['resultado_busca'] = $resultados;
+        header('Location: ficha.php');
+
+    }elseif($exp == 3){
+        $grupos = array(
+            array("Peito" , 4),
+            array("Ombros", 4),
+            array("Posterior de coxa", 4),
+            array("Gluteos", 3),
+            array("Panturrilha", 2),
+            array("Triceps", 4),
+            array("Biceps", 4),
+            array("Costas", 5),
+            array("Quadriceps", 4),
+            array("Posterior de coxa", 2),
+            array("Gluteos", 1)
+        );
+
+        $resultados = array();
+
+        for ($i = 0; $i < 11; $i++){
+            $grupo_atual = $grupos[$i][0];
+            $limite_atual = $grupos[$i][1];
+
+            $resultado_busca = array();
+            
+            $sql_ABC = 
+            "SELECT exercicios.nome, exerciciosgruposmusculares.id_grupo_muscular
+                FROM exercicios
+                INNER JOIN exerciciosgruposmusculares ON exercicios.id = exerciciosgruposmusculares.id_exercicio
+                INNER JOIN gruposmusculares ON exerciciosgruposmusculares.id_grupo_muscular= gruposmusculares.id
+                WHERE gruposmusculares.nome = '$grupo_atual'
+                ORDER BY RAND()
+                LIMIT $limite_atual";
+
+            $result_exercicios = $conn->query($sql_ABC);
+                        
+            if ($result_exercicios->num_rows > 0){
+                while($row = $result_exercicios->fetch_assoc()){
+                    $nome_exercicio = $row["nome"];
+
+                    $sql_series =
+                    "SELECT rep, series 
+                    FROM seriestreino
+                    INNER JOIN aluno ON aluno.exp_treino = seriestreino.id_exp_treino
+                    INNER JOIN gruposmusculares ON gruposmusculares.id = seriestreino.id_grupo_muscular
+                    WHERE gruposmusculares.nome = '$grupo_atual'
+                    LIMIT 1;
+                    ";
+
+                    $resultado_series = $conn->query($sql_series);
+                    $row_series = $resultado_series->fetch_assoc();
+                    $rep = $row_series['rep'];
+                    $series = $row_series['series'];
+
+                    $resultado_busca[] = array(
+                        "nome" => $nome_exercicio,
+                        "rep" => $rep,
+                        "series" => $series
+                    );
+                                       
+                }
+                $resultados[$grupo_atual] = $resultado_busca;
+            }            
+        }
+        $_SESSION['resultado_busca'] = $resultados;
+        header('Location: ficha.php');        
+    }elseif($exp == 4){
+        $grupos = array(
+            array("Peito" , 4),
+            array("Ombros", 4),
+            array("Posterior de coxa", 4),
+            array("Gluteos", 3),
+            array("Triceps", 4),
+            array("Biceps", 4),
+            array("Ombros", 4).
+            array("Panturrilha", 2),
+            array("Costas", 6),
+            array("Quadriceps", 4),
+            array("Posterior de coxa", 3),
+            array("Gluteos", 1)
+        );
+
+        $resultados = array();
+
+        for ($i = 0; $i < 12; $i++){
             $grupo_atual = $grupos[$i][0];
             $limite_atual = $grupos[$i][1];
 

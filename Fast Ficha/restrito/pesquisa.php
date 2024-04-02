@@ -69,7 +69,7 @@
         <table class="table table-dark table-striped-columns table-bordered border-white">
              <thead class="text-center">
                 <tr>
-                    <th colspan="7"><h2>TABELA DE ALUNOS</h2></th>
+                    <th colspan="8"><h2>TABELA DE ALUNOS</h2></th>
                 </tr>    
                 <tr>
                     <th scope="col">Nome</th>                    
@@ -78,6 +78,7 @@
                     <th scope="col">Data de Nascimento</th>
                     <th scope="col">Peso</th>
                     <th scope="col">IMC</th>
+                    <th scope="col">Exp de Treino</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -108,6 +109,25 @@
                                 <td>$data_nascimento<br>($idade anos)</td>
                                 <td>$peso</td>
                                 <td>$imc</>
+                                <td>";switch($exp_treino){
+                                    case(1);
+                                    echo"Iniciante (0 a 6 meses)";
+                                    break;
+
+                                    case(2);
+                                    echo"Intermediário (6 meses a 1 ano)";
+                                    break;
+
+                                    case(3);
+                                    echo"Avançado (1 a 3 anos)";
+                                    break;
+
+                                    case(4);
+                                    echo"Muito avançado (3 anos em diante)";
+                                    break;
+                                }
+                                     echo"
+                                
                                 <td>
                                     <a href='cadastro_edit.php?id=$id_aluno' class='btn btn-success btn-sm mt-1'>Editar</a>
                                     <button class='btn btn-danger btn-sm mt-1 btn-excluir' data-bs-toggle='modal' data-bs-target='#confirma' data-id='$id_aluno' data-nome='$nome'>Excluir</button>

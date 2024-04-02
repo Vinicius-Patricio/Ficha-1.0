@@ -54,10 +54,11 @@
             $email = $_POST['email'];
             $data_nascimento = $_POST['data_nascimento'];
             $peso = $_POST['peso'];
+            $exp_treino = $_POST['exp_treino'];
 
-            $sql = "UPDATE aluno SET nome = ?, telefone = ?, email = ?, data_nascimento = ?, peso = ? WHERE id_aluno = ?";
+            $sql = "UPDATE aluno SET nome = ?, telefone = ?, email = ?, data_nascimento = ?, peso = ?, exp_treino = ? WHERE id_aluno = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssssdi", $nome, $telefone, $email, $data_nascimento, $peso, $id_aluno);
+            $stmt->bind_param("ssssssi", $nome, $telefone, $email, $data_nascimento, $peso, $exp_treino, $id_aluno);
 
             if ($stmt->execute()){
                 echo '<div class="container" style="max-width: 30%"> 

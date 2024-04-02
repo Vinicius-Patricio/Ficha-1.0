@@ -112,26 +112,12 @@
                 </div>
                 <div class="mb-2">
                   <label for="nome" class="form-label">Exp de Treino:</label>
-                  <input type="text" name="data_nascimento" class="form-control bg-dark text-white" disabled required value="<?php               
-                  switch ($linha['exp_treino']){
-
-                    case 1:
-                      echo"Iniciante (0 a 6 meses)";
-                      break;
-
-                    case 2;  
-                      echo"Intermediário (6 meses a 1 ano)";
-                      break;
-
-                    case 3;
-                      echo"Avançado (1 a 3 anos)";
-                      break;
-
-                    case 4;
-                      echo"Muito avançado (3 anos em diante)";
-                      break;
-                  } 
-                  ?> ">
+                  <select class="form-select bg-dark text-white" name="exp_treino" required>
+                    <option value="1" <?php if($linha['exp_treino'] == 1) echo 'selected'; ?>>Iniciante (0 a 6 meses)</option>
+                    <option value="2" <?php if($linha['exp_treino'] == 2) echo 'selected'; ?>>Intermediário (6 meses a 1 ano)</option>
+                    <option value="3" <?php if($linha['exp_treino'] == 3) echo 'selected'; ?>>Avançado (1 a 3 anos)</option>
+                    <option value="4" <?php if($linha['exp_treino'] == 4) echo 'selected'; ?>>Muito avançado (3 anos em diante)</option>
+                </select>
                 </div>
 
             </div>
