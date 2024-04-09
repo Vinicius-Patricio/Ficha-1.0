@@ -71,3 +71,60 @@ function calDigVerify($base){
 
     return $digito;
 }
+
+// function divisaoTreino($div_treino, $resultado) {
+//     $tam_treino = count($div_treino); // Faz a contagem de quantos divisões serão feitas. Ex:(ABC = 3 Divisões de treino, ABCD = 4 Divisões de treino)
+//     $cont_grupos = 0;
+
+//     if (is_array($div_treino) && is_array($resultado)) {
+
+//         $divisao = array_values($div_treino);
+
+//         echo "<tr>";
+//         foreach($divisao as $tam_treino){
+//             $primeiro_grupo = true;
+//             foreach ($div_treino as $treino_div) {
+//                 if ($treino_div >= $tam_treino) {
+//                     echo "<th class='text-center'>Treino " . chr(65 + $cont_grupos) . "</th>
+//                             <th class='text-center'>Exercícios</th>
+//                             <th class='text-center' style='width: 6.5%'>Séries</th>
+//                             <th class='text-center' style='width: 6%'>Rep.</th>";
+//                 }
+//             }
+        
+//             echo "</tr>";
+
+//             $cont_grupos++;
+//             foreach ($resultado as $grupo => $exercicios_grupo) {
+//                 echo "<tr>"; 
+//                 $primeiro_exercicio = true; 
+//                 $count_exercicios = count($exercicios_grupo); 
+
+
+//                 echo "<th class='text-center col align-middle' style='width: 10%' rowspan='$count_exercicios'>$grupo</th>";
+
+
+//                 foreach ($exercicios_grupo as $item) {
+//                     $nome_exercicio = $item['nome'] ?? "";
+//                     $rep = $item['rep'] ?? "";
+//                     $series = $item['series'] ?? "";
+
+
+//                     echo "<td>$nome_exercicio</td>
+//                         <td class='text-center'>$series</td>
+//                         <td class='text-center'>$rep</td>";
+//                     echo "</tr>";
+//                 }
+//             }
+            
+//         }   
+//     }
+//     print_r($cont_grupos);
+//}
+
+
+
+
+
+
+
