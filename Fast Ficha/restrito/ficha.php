@@ -3,52 +3,54 @@
     session_start();
     verificarLogin();
     function divisaoTreino($div_treino, $resultado) {
-        $tam_treino = count($div_treino); // Faz a contagem de quantos divisões serão feitas. Ex:(ABC = 3 Divisões de treino, ABCD = 4 Divisões de treino)
-        $cont_grupos = 0;
-        $grupos_treino = 0;
-    
-        if (is_array($div_treino) && is_array($resultado)) {
+        $tam_treino = count($div_treino); // Faz a contagem de quantos divisões serão feitas. Ex:(ABC = 3 Divisões de treino).
+        $cont_grupos = 0; //Contador de divisoes de treino, quantidade de vezes que o codigo passou pelo $cont_grupos ++.
+        $divarray = array();//Em "$divarray[]= $valor" , vai associar os valores dentro do $div_treino, um por vez (na teoria).
+        $primeira_vez = true;
+
+        if (is_array($div_treino) && is_array($resultado)) { //Verifica se as variáveis div_treino e resultado, são arrays.
     
             $divisao = array_values($div_treino);
     
-            echo "<tr>";
-            foreach($divisao as $tdiv){
-                if($tdiv < $tam_treino){
-                        echo "<th class='text-center'>Treino " . chr(65 + $cont_grupos) . "</th>
-                                <th class='text-center'>Exercícios</th>
-                                <th class='text-center' style='width: 6.5%'>Séries</th>
-                                <th class='text-center' style='width: 6%'>Rep.</th>";
-                                $cont_grupos ++;
-                }    
-            
-                echo "</tr>";
-                foreach($divisao as $div){
-                    if($div > $grupos_treino){
-                        foreach ($resultado as $grupo => $exercicios_grupo) {
-                            echo "<tr>"; 
-                            $primeiro_exercicio = true; 
-                            $count_exercicios = count($exercicios_grupo); 
-            
-            
-                            echo "<th class='text-center col align-middle' style='width: 10%' rowspan='$count_exercicios'>$grupo</th>";
-
-            
-                            foreach ($exercicios_grupo as $item) {
-                                $nome_exercicio = $item['nome'] ?? "";
-                                $rep = $item['rep'] ?? "";
-                                $series = $item['series'] ?? "";
-            
-            
-                                echo "<td>$nome_exercicio</td>
-                                    <td class='text-center'>$series</td>
-                                    <td class='text-center'>$rep</td>";
-                                echo "</tr>";
-                                $grupos_treino ++;
+                foreach($div_treino as $valor){
+                        if($cont_grupos < $tam_treino){
+                            if(!$primeira_vez){
+                                echo "<tr>";
                             }
+                                echo "<th class='text-center'>Treino " . chr(65 + $cont_grupos) . "</th>
+                                        <th class='text-center'>Exercícios</th>
+                                        <th class='text-center' style='width: 6.5%'>Séries</th>
+                                        <th class='text-center' style='width: 6%'>Rep.</th>";
+                                        $cont_grupos ++;
+                        }    
+            
+            echo "</tr>";
+
+            $grupos_treino = 1; //Variavel que conta o numero de grupos que foram passados.
+                foreach ($resultado as $grupo => $exercicios_grupo) {
+                    echo "<tr>"; 
+                    $primeiro_exercicio = true; 
+                    $count_exercicios = count($exercicios_grupo); 
+                    
+                    if($grupos_treino <= $valor ){
+                        $divarray[] = $valor;
+                        echo "<th class='text-center col align-middle' style='width: 10%' rowspan='$count_exercicios'>$grupo</th>";
+                        $grupos_treino ++;
+    
+                        foreach ($exercicios_grupo as $item) {
+                            $nome_exercicio = $item['nome'] ?? "";
+                            $rep = $item['rep'] ?? "";
+                            $series = $item['series'] ?? "";
+        
+        
+                            echo "<td>$nome_exercicio</td>
+                                <td class='text-center'>$series</td>
+                                <td class='text-center'>$rep</td>";
+                            echo "</tr>";
                         }
                     }
-                }                
-            }   
+                }
+            }                               
         }
     }
 ?>
