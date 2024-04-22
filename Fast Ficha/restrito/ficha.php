@@ -2,55 +2,59 @@
     include("conexao.php");
     session_start();
     verificarLogin();
+
     function divisaoTreino($div_treino, $resultado) {
         $tam_treino = count($div_treino); // Faz a contagem de quantos divisões serão feitas. Ex:(ABC = 3 Divisões de treino).
         $cont_grupos = 0; //Contador de divisoes de treino, quantidade de vezes que o codigo passou pelo $cont_grupos ++.
         $divarray = array();//Em "$divarray[]= $valor" , vai associar os valores dentro do $div_treino, um por vez (na teoria).
-        $primeira_vez = true;
 
-        if (is_array($div_treino) && is_array($resultado)) { //Verifica se as variáveis div_treino e resultado, são arrays.
-    
+        if (is_array($div_treino) && is_array($resultado)) { //Verifica se as variáveis div_treino e resultado, são arrays.   
             $divisao = array_values($div_treino);
     
-                foreach($div_treino as $valor){
-                        if($cont_grupos < $tam_treino){
-                            if(!$primeira_vez){
-                                echo "<tr>";
-                            }
-                                echo "<th class='text-center'>Treino " . chr(65 + $cont_grupos) . "</th>
-                                        <th class='text-center'>Exercícios</th>
-                                        <th class='text-center' style='width: 6.5%'>Séries</th>
-                                        <th class='text-center' style='width: 6%'>Rep.</th>";
-                                        $cont_grupos ++;
-                        }    
-            
-            echo "</tr>";
+            foreach($div_treino as $valor){
+                if($cont_grupos < $tam_treino){
+                        echo "<tr>";                            
+                        echo "<th class='text-center'>Treino " . chr(65 + $cont_grupos) . "</th>
+                                <th class='text-center'>Exercícios</th>
+                                <th class='text-center' style='width: 6.5%'>Séries</th>
+                                <th class='text-center' style='width: 6%'>Rep.</th>";
+                                $cont_grupos ++;
+                }            
+                echo "</tr>";
 
-            $grupos_treino = 1; //Variavel que conta o numero de grupos que foram passados.
+                $grupos_treino = 1; // Variavel que conta o numero de grupos que foram passados.
+                $ultimo_exercicio = "";
+                $ultimo_grupo = "";
+
                 foreach ($resultado as $grupo => $exercicios_grupo) {
                     echo "<tr>"; 
-                    $primeiro_exercicio = true; 
-                    $count_exercicios = count($exercicios_grupo); 
+                    $count_exercicios = count($exercicios_grupo);
+
                     
-                    if($grupos_treino <= $valor ){
+                    if ($grupos_treino <= $valor) {
                         $divarray[] = $valor;
+                        
                         echo "<th class='text-center col align-middle' style='width: 10%' rowspan='$count_exercicios'>$grupo</th>";
-                        $grupos_treino ++;
-    
+                        $grupos_treino++;
+
+
                         foreach ($exercicios_grupo as $item) {
                             $nome_exercicio = $item['nome'] ?? "";
                             $rep = $item['rep'] ?? "";
                             $series = $item['series'] ?? "";
-        
-        
+
+                            // Aqui você faz algo com os dados do exercício, como exibir em uma tabela, etc.
                             echo "<td>$nome_exercicio</td>
-                                <td class='text-center'>$series</td>
-                                <td class='text-center'>$rep</td>";
+                                  <td class='text-center'>$series</td>
+                                  <td class='text-center'>$rep</td>";
                             echo "</tr>";
                         }
-                    }
-                }
-            }                               
+                        $ultimo_exercicio = $item;
+                        $ultimo_grupo = $grupo;
+
+                    }        
+                }  
+            }
         }
     }
 ?>
@@ -157,39 +161,38 @@
                                 </tr>
                             </tr>
                         </thead>";
-            
-                        if(isset($_SESSION['resultado_busca'])) {
-                            $resultado = $_SESSION['resultado_busca'];
-                            if(is_array($resultado) && !empty($resultado)) {
-                                switch ($exp_treino) {
-                                    case 1:
-                                        $div_treino = array(3,3,2);
-                                        break;
-                                    case 2:
-                                        $div_treino = array(2,3,2,1);
-                                        break;
-                                    case 3:
-                                        $div_treino = array(2,3,2,1,3);
-                                        break;
-                                    case 4:
-                                        $div_treino = array(2,2,2,2,1,3);
-                                        break;
-                                }
-                                // echo "exp_treino: $exp_treino<br>";
-                                // echo "div_treino: ";
-                                // print_r($div_treino);
-                                // echo "<br>";
-                                // echo "resultado: ";
-                                // print_r($resultado);
-                                // echo "<br>";
-                                
-                                divisaoTreino($div_treino, $resultado);
-                            }
+                if(isset($_SESSION['resultado_busca'])){
+                    $resultado = $_SESSION['resultado_busca'];                       
+                    if(is_array($resultado) && !empty($resultado)) {
+                        switch ($exp_treino) {
+                            case 1:
+                                $div_treino = array(3,3,2);
+                                break;
+                            case 2:
+                                $div_treino = array(2,3,2,1);
+                                break;
+                            case 3:
+                                $div_treino = array(2,3,2,1,3);
+                                break;
+                            case 4:
+                                $div_treino = array(2,2,2,2,1,3);
+                                break;
                         }
-                        echo "</table>";    
+                        // echo "exp_treino: $exp_treino<br>";
+                        // echo "div_treino: ";
+                        // print_r($div_treino);
+                        // echo "<br>";
+                        // echo "resultado: ";
+                        // print_r($resultado);
+                        // echo "<br>";
+                        
+                        divisaoTreino($div_treino, $_SESSION['resultado_busca']);
                     }
-                }        
-            ?>
+                }       
+                echo "</table>";    
+            }
+        }        
+?>
              
     </div>
 
